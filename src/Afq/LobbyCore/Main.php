@@ -78,22 +78,7 @@ class Main extends PluginBase implements Listener {
         }
         return true;
     }
-	
-	public function onEntityTeleport(EntityTeleportEvent $event) {
-        $player = $event->getEntity();
-        if($player instanceof Player){
-			$toWorld = $event->getTo()->getWorld()->getFolderName();
-			if ($event->getFrom()->getWorld()->getFolderName() != $toWorld) {
-				if ($this->getServer()->getWorldManager()->getDefaultWorld()->getFolderName() == $toWorld) {
-					$this->getScheduler()->scheduleDelayedTask(new =Task($this, $player->getName()), 20);
-					return;
-				}
-				$player->getInventory()->clearAll();
-				$player->getArmorInventory()->clearAll();
-			}
-        }
-    }
-	
+
 	public function onInventoryTransaction(InventoryTransactionEvent $event) {
         $player = $event->getTransaction()->getSource();
         if($this->getServer()->getWorldManager()->getDefaultWorld()->getFolderName() == $player->getWorld()->getFolderName()) {
