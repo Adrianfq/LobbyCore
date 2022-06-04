@@ -1,0 +1,24 @@
+name: LobbyCore
+main: Afq\LobbyCore\Main
+api: [4.0.0]
+version: 1.0.0
+author: Afq
+
+commands:
+  hub:
+    description: "Teleport back to hub"
+    permission: use.lobbycore.hub
+  lobby:
+    description: "Teleport back to lobby"
+    permission: use.lobbycore.lobby
+  spawn:
+    description: "Teleport back to spawn"
+    permission: use.lobbycore.spawn
+
+permissions:
+  use.lobbycore.hub:
+    default: true
+  use.lobbycore.lobby:
+    default: true
+  use.lobbycore.spawn:
+    default: true
