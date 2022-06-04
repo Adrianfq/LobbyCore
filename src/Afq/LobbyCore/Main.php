@@ -34,10 +34,11 @@ class Main extends PluginBase implements Listener {
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
 		if(!file_exists($this->getDataFolder() . "Config.yml")) {
             $this->config = (new Config($this->getDataFolder() . "Config.yml", Config::YAML, [
-				"Spawn" => [
-					"x" => 0,
-					"y" => 50,
-					"z" => 0,
+            # BY AFQ ❤️ 
+    				"Spawn" => [
+					"x" => 0.5,
+					"y" => 5,
+					"z" => 0.5,
 					"world" => "spawn",
 				]
             ]));
@@ -78,7 +79,22 @@ class Main extends PluginBase implements Listener {
         }
         return true;
     }
-
+	
+	public function onEntityTeleport(EntityTeleportEvent $event) {
+        $player = $event->getEntity();
+        if($player instanceof Player){
+			$toWorld = $event->getTo()->getWorld()->getFolderName();
+			if ($event->getFrom()->getWorld()->getFolderName() != $toWorld) {
+				if ($this->getServer()->getWorldManager()->getDefaultWorld()->getFolderName() == $toWorld) {
+					$this->getScheduler()->scheduleDelayedTask(new DelayTask($this, $player->getName()), 20);
+					return;
+				}
+				$player->getInventory()->clearAll();
+				$player->getArmorInventory()->clearAll();
+			}
+        }
+    }
+	
 	public function onInventoryTransaction(InventoryTransactionEvent $event) {
         $player = $event->getTransaction()->getSource();
         if($this->getServer()->getWorldManager()->getDefaultWorld()->getFolderName() == $player->getWorld()->getFolderName()) {
@@ -97,9 +113,21 @@ class Main extends PluginBase implements Listener {
 	
 	public function onJoin(PlayerJoinEvent $event) {
 		$player = $event->getPlayer();
+				$config = $this->config->get("Spawn");
+		if (!$this->getServer()->getWorldManager()->isWorldLoaded($config["world"])) {
+			$this->getServer()->getWorldManager()->loadWorld($config["world"]);
+		}
+		$player->teleport(new Position($config["x"], $config["y"], $config["z"], $this->getServer()->getWorldManager()->getWorldByName($config["world"])));
+        $player->setSpawn(new Position($config["x"], $config["y"], $config["z"], $this->getServer()->getWorldManager()->getWorldByName($config["world"])));
+		$player->getInventory()->setHeldItemIndex(0);
+        $player->getInventory()->clearAll();
+        $player->getArmorInventory()->clearAll();
+        $player->getEffects()->clear();
+        $player->setHealth(20);
+        $player->getHungerManager()->setFood(20);
 	}
 
-	public function giveLobbyItems(Player $player) {
+	public function Spawn(Player $player) {
 		$config = $this->config->get("Spawn");
 		if (!$this->getServer()->getWorldManager()->isWorldLoaded($config["world"])) {
 			$this->getServer()->getWorldManager()->loadWorld($config["world"]);
