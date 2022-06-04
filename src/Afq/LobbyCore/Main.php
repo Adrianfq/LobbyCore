@@ -39,7 +39,7 @@ class Main extends PluginBase implements Listener {
 					"x" => 0.5,
 					"y" => 5,
 					"z" => 0.5,
-					"world" => "spawn",
+					"world" => "world",
 				]
             ]));
         } else {
