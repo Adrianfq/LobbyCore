@@ -7,18 +7,18 @@ author: Afq
 commands:
   hub:
     description: "Teleport back to hub"
-    permission: use.lobbycore.hub
+    permission: lobbycore.hub.cmd
   lobby:
     description: "Teleport back to lobby"
-    permission: use.lobbycore.lobby
+    permission: lobbycore.lobby.cmd
   spawn:
     description: "Teleport back to spawn"
-    permission: use.lobbycore.spawn
+    permission: lobbycore.spawn.cmd
 
 permissions:
-  use.lobbycore.hub:
+  lobbycore.hub.cmd:
     default: true
-  use.lobbycore.lobby:
+  lobbycore.lobby.cmd:
     default: true
-  use.lobbycore.spawn:
+  lobbycore.spawn.cmd:
     default: true
